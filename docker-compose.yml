@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: nestjs_api
     ports:
-      - '3000:3000'
+      - '3008:3008'
     # ÉP NESTJS PHẢI ĐỢI CHO ĐẾN KHI CẢ 2 DB NÀY KHỎE MẠNH (HEALTHY)
     # depends_on:
     #   postgres:
