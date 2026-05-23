@@ -16,8 +16,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Expose port 3000
-EXPOSE 3000
+# Expose port 3008
+EXPOSE 3008
 
 # Start the server
 CMD [ "npm", "run", "start:prod" ]

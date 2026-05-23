@@ -6,63 +6,16 @@ services:
     container_name: nestjs_api
     ports:
       - '3008:3008'
-    # ÉP NESTJS PHẢI ĐỢI CHO ĐẾN KHI CẢ 2 DB NÀY KHỎE MẠNH (HEALTHY)
-    # depends_on:
-    #   postgres:
-    #     condition: service_healthy
-    #   neo4j:
-    #     condition: service_healthy
-    # environment:
-    #   - POSTGRESQL_HOST=postgres  # CHÚ Ý: Đặt thẳng tên service 'postgres' ở đây là chuẩn nhất
-    #   - POSTGRESQL_PORT=5432       # Cổng nội bộ bên trong mạng Docker luôn là 5432
-    #   - POSTGRESQL_USER=${POSTGRESQL_USER}
-    #   - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
-    #   - POSTGRESQL_DB=${POSTGRESQL_DB}
-    #   - NEO4J_URI=bolt://neo4j:7687
-    #   - NEO4J_USER=${NEO4J_USER}
-    #   - NEO4J_PASSWORD=${NEO4J_PASSWORD}
-    # restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`test1.ngocthang.io.vn`)
+      - traefik.http.routers.api.entrypoints=https
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=letsencrypt
+      - traefik.http.services.api.loadbalancer.server.port=3008
+    networks:
+      - coolify
 
-  # PostgreSQL Database
-  # postgres:
-  #   image: postgres:15-alpine
-  #   container_name: postgres_db
-  #   ports:
-  #     - '${POSTGRESQL_PORT}:5432'
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRESQL_USER}
-  #     POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
-  #     POSTGRES_DB: ${POSTGRESQL_DB}
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   # Kiểm tra xem Postgres đã thực sự sẵn sàng nhận kết nối chưa
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USER} -d ${POSTGRESQL_DB}"]
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
-  #   restart: unless-stopped
-
-  # Neo4j Graph Database
-#   neo4j:
-#     image: neo4j:5
-#     container_name: neo4j_db
-#     ports:
-#       - '7474:7474' # HTTP interface
-#       - '7687:7687' # Bolt protocol
-#     environment:
-#       # SỬA LỖI: Neo4j bắt buộc phải truyền theo định dạng username/password
-#       NEO4J_AUTH: ${NEO4J_USER}/${NEO4J_PASSWORD} 
-#     volumes:
-#       - neo4j_data:/data
-#     # Kiểm tra xem Neo4j đã mở cổng kết nối Bolt (7687) chưa
-#     healthcheck:
-#       test: ["CMD", "cypher-shell", "-u", "${NEO4J_USER}", "-p", "${NEO4J_PASSWORD}", "RETURN 1"]
-#       interval: 5s
-#       timeout: 5s
-#       retries: 5
-#     restart: unless-stopped
-
-# volumes:
-#   postgres_data:
-#   neo4j_data:
+networks:
+  coolify:
+    external: true
