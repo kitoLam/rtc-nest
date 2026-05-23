@@ -15,16 +15,17 @@ async function bootstrap() {
   /**
    * Swagger config
    */
-  const config = new DocumentBuilder()
-    .setVersion("1.0")
-    .setTitle("Test Api Documentation")
-    .setDescription("description")
-    .addServer("http://localhost:3000")
-    .build();
+  // const config = new DocumentBuilder()
+  //   .setVersion("1.0")
+  //   .setTitle("Test Api Documentation")
+  //   .setDescription("description")
+  //   .addServer("http://localhost:3000")
+  //   .build();
   // Instantiate Document
-  const document = SwaggerModule.createDocument(app, config);
+  // const document = SwaggerModule.createDocument(app, config);
   // setup api
-  SwaggerModule.setup("api", app, document);
+  // SwaggerModule.setup("api", app, document);
+  app.enableCors({ origin: '*' });
   await app.listen(process.env.PORT ?? 3008);
 }
 bootstrap();

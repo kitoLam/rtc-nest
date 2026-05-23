@@ -9,6 +9,7 @@ import { TagsModule } from "./tags/tags.module";
 import { MetaOptionsModule } from "./meta-options/meta-options.module";
 import { Neo4jModule } from "./neo4j/neo4j.module";
 import { SignalingModule } from "./signaling/signaling.module";
+import { LiveKitModule } from "./livekit/livekit.module";
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { SignalingModule } from "./signaling/signaling.module";
     // TagsModule,
     // MetaOptionsModule,
     // Neo4jModule,
-    SignalingModule
+    SignalingModule,
+    LiveKitModule
   ],
   controllers: [AppController],
   providers: [AppService]
